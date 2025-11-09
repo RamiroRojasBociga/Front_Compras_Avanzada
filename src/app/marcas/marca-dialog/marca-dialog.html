@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>
+  {{ marcaForm.get('idMarca')?.value ? 'Editar Marca' : 'Crear Marca' }}
+</h2>
+<div mat-dialog-content>
+  <form [formGroup]="marcaForm">
+    <!-- Campo para nombre -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: HP" autocomplete="off">
+      <mat-error *ngIf="marcaForm.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+      <mat-error *ngIf="marcaForm.get('nombre')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+    <!-- Muestra el ID deshabilitado solo al editar -->
+    <mat-form-field *ngIf="marcaForm.get('idMarca')?.value" appearance="fill" class="full-width">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="idMarca" [disabled]="true" autocomplete="off">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="marcaForm.invalid">
+    Guardar
+  </button>
+</div>

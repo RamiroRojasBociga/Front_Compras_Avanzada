@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>
+  {{ ciudadForm.get('id')?.value ? 'Editar Ciudad' : 'Crear Ciudad' }}
+</h2>
+
+<div mat-dialog-content>
+  <form [formGroup]="ciudadForm">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: Bogotá" autocomplete="off" />
+      <mat-error *ngIf="ciudadForm.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+      <mat-error *ngIf="ciudadForm.get('nombre')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Mostrar ID solo en modo edición -->
+    <mat-form-field *ngIf="ciudadForm.get('id')?.value" appearance="fill" class="full-width">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="id" [disabled]="true" autocomplete="off" />
+
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="ciudadForm.invalid">Guardar</button>
+</div>

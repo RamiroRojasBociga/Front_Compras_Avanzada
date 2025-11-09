@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>
+  {{ categoriaForm.get('id')?.value ? 'Editar Categoría' : 'Crear Categoría' }}
+</h2>
+
+<div mat-dialog-content>
+  <form [formGroup]="categoriaForm">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: Electrónica" autocomplete="off" />
+      <mat-error *ngIf="categoriaForm.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+      <mat-error *ngIf="categoriaForm.get('nombre')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Solo mostrar el ID en edición -->
+    <mat-form-field *ngIf="categoriaForm.get('id')?.value" appearance="fill" class="full-width">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="id" [disabled]="true" autocomplete="off" />
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="categoriaForm.invalid">Guardar</button>
+</div>

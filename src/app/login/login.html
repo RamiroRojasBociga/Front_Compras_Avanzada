@@ -1,0 +1,42 @@
+<!-- Tarjeta central para formulario de login -->
+<mat-card class="login-card">
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <h1>Iniciar Sesión</h1>
+
+    <!-- Campo email con validación -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="tu@email.com" autocomplete="off" />
+      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+        El email es obligatorio.
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+        Formato de email inválido.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo password con opción de mostrar/ocultar -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Contraseña" autocomplete="off" />
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Mostrar contraseña'" [attr.aria-pressed]="!hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+        La contraseña es obligatoria.
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+        Mínimo 3 caracteres.
+      </mat-error>
+    </mat-form-field>
+
+
+    <!-- Mensaje de error -->
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <!-- Boton submit -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+      Iniciar Sesión
+    </button>
+  </form>
+</mat-card>

@@ -1,0 +1,40 @@
+/* El campo de formulario ocupa todo el ancho disponible */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Clase auxiliar para ajustar elementos al 100% del contenedor */
+.full-width {
+  width: 100%;
+}
+
+/* Área de botones: separación y borde superior para destacar acciones */
+[mat-dialog-actions] {
+  padding: 16px 0 0 0;
+  margin: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Espaciado lateral entre botones */
+[mat-dialog-actions] button {
+  margin-left: 8px;
+}
+
+/* Espaciado interno para el contenido del diálogo */
+[mat-dialog-content] {
+  padding: 20px 24px;
+}
+
+/* Título del diálogo: color oscuro y fuente en negrita */
+[mat-dialog-title] {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Fondo y box shadow personalizado para el Dialog */
+.mat-mdc-dialog-surface {
+  background: linear-gradient(120deg,#f7fafc 0%,#e4ecfa 100%);
+  border-radius: 10px !important;
+  box-shadow: 0 6px 30px rgba(90,123,210,0.10), 0 2px 4px rgba(50,50,70,0.08);
+}
