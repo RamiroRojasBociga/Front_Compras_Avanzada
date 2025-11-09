@@ -4,6 +4,7 @@ import { Login} from './login/login';
 import { Categorias } from './categorias/categorias';
 import { Marcas } from './marcas/marcas';
 import { Ciudades } from './ciudades/ciudades';
+import { Usuarios } from './usuarios/usuarios';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'ciudades',               // Ruta para ciudades
     component: Ciudades
+  },
+  {
+    path: 'usuarios',               // Ruta para usuarios
+    component: Usuarios
   },
   {
     path: '',                     // Ruta raíz

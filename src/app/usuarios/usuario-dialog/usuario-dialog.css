@@ -1,0 +1,9 @@
+/* Hace que los campos del formulario tengan ancho completo */
+.full-width {
+  width: 100%;
+}
+
+/* Margen inferior para separar campos */
+mat-form-field {
+  margin-bottom: 15px;
+}

@@ -1,0 +1,59 @@
+<div class="container">
+  <!-- Header con título y botón crear usuario -->
+  <div class="header">
+    <h1>Usuarios</h1>
+    <button mat-raised-button color="primary" (click)="openDialog()">
+      Crear Usuario
+    </button>
+  </div>
+
+  <!-- Tabla Material con datos de usuarios -->
+  <table mat-table [dataSource]="dataSource" class="categorias-table">
+    <!-- Columna ID -->
+    <ng-container matColumnDef="idUsuario">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.idUsuario }}</td>
+    </ng-container>
+
+    <!-- Columna Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.nombre }}</td>
+    </ng-container>
+
+    <!-- Columna Email -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
+    </ng-container>
+
+    <!-- Columna Teléfono -->
+    <ng-container matColumnDef="telefono">
+      <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.telefono }}</td>
+    </ng-container>
+
+    <!-- Columna Acciones (editar y eliminar) -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let usuario">
+        <button mat-icon-button matTooltip="Editar" (click)="openDialog(usuario)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Eliminar" color="warn" (click)="deleteUsuario(usuario.idUsuario)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Filas de encabezado y datos -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- Mensaje cuando no hay datos -->
+  <div *ngIf="dataSource.data.length === 0" class="no-data">
+    No hay usuarios registrados
+  </div>
+</div>
+

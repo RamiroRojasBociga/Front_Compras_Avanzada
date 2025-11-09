@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>
+  {{ usuarioForm.get('idUsuario')?.value ? 'Editar Usuario' : 'Crear Usuario' }}
+</h2>
+
+<div mat-dialog-content>
+  <form [formGroup]="usuarioForm">
+    <!-- Campo Nombre -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: Juan Pérez" autocomplete="off" />
+      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('maxlength')">
+        Máximo 120 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Email -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com" autocomplete="off" />
+      <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
+        El email es obligatorio
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
+        Formato de email inválido
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('email')?.hasError('maxlength')">
+        Máximo 100 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Teléfono -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono" placeholder="Ej: 3001234567" autocomplete="off" />
+      <mat-error *ngIf="usuarioForm.get('telefono')?.hasError('required')">
+        El teléfono es obligatorio
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('telefono')?.hasError('maxlength')">
+        Máximo 20 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo Password -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Contraseña {{ isEditMode ? '(dejar vacío para mantener actual)' : '' }}</mat-label>
+      <input matInput formControlName="password" type="password" [placeholder]="isEditMode ? 'Nueva contraseña (opcional)' : 'Contraseña'" autocomplete="new-password" />
+      <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">
+        La contraseña es obligatoria
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('password')?.hasError('minlength')">
+        Mínimo 6 caracteres
+      </mat-error>
+      <mat-error *ngIf="usuarioForm.get('password')?.hasError('maxlength')">
+        Máximo 100 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Mostrar ID solo en modo edición (deshabilitado) -->
+    <mat-form-field *ngIf="usuarioForm.get('idUsuario')?.value" appearance="fill" class="full-width">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="idUsuario" [disabled]="true" autocomplete="off" />
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="usuarioForm.invalid">Guardar</button>
+</div>
