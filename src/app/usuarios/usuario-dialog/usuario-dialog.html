@@ -1,11 +1,14 @@
+<!-- Título principal del diálogo: cambia según modo edición o creación -->
 <h2 mat-dialog-title>
-  {{ usuarioForm.get('idUsuario')?.value ? 'Editar Usuario' : 'Crear Usuario' }}
+  {{ usuarioForm.get('idUsuario')?.value ? 'Editar Usuario' : 'Nuevo Usuario' }}
 </h2>
 
-<div mat-dialog-content>
+<!-- Contenido principal del diálogo con el formulario reactivo -->
+<mat-dialog-content>
   <form [formGroup]="usuarioForm">
-    <!-- Campo Nombre -->
-    <mat-form-field appearance="fill" class="full-width">
+
+    <!-- Campo Nombre del usuario -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="nombre" placeholder="Ej: Juan Pérez" autocomplete="off" />
       <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('required')">
@@ -19,23 +22,23 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Campo Email -->
-    <mat-form-field appearance="fill" class="full-width">
+    <!-- Campo Email con validaciones -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com" autocomplete="off" />
+      <input matInput formControlName="email" type="email" placeholder="ejemplo@email.com" autocomplete="off" />
       <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
         El email es obligatorio
       </mat-error>
       <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
-        Formato de email inválido
+        Email inválido
       </mat-error>
       <mat-error *ngIf="usuarioForm.get('email')?.hasError('maxlength')">
         Máximo 100 caracteres
       </mat-error>
     </mat-form-field>
 
-    <!-- Campo Teléfono -->
-    <mat-form-field appearance="fill" class="full-width">
+    <!-- Campo Teléfono con validaciones -->
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Teléfono</mat-label>
       <input matInput formControlName="telefono" placeholder="Ej: 3001234567" autocomplete="off" />
       <mat-error *ngIf="usuarioForm.get('telefono')?.hasError('required')">
@@ -46,10 +49,13 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Campo Password -->
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Contraseña {{ isEditMode ? '(dejar vacío para mantener actual)' : '' }}</mat-label>
-      <input matInput formControlName="password" type="password" [placeholder]="isEditMode ? 'Nueva contraseña (opcional)' : 'Contraseña'" autocomplete="new-password" />
+    <!-- Campo Contraseña: obligatorio en creación, opcional en edición -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>
+        Contraseña {{ usuarioForm.get('idUsuario')?.value ? '(dejar vacío para no cambiar)' : '' }}
+      </mat-label>
+      <input matInput formControlName="password" type="password" autocomplete="new-password"
+        [placeholder]="usuarioForm.get('idUsuario')?.value ? 'Nueva contraseña (opcional)' : 'Contraseña'" />
       <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">
         La contraseña es obligatoria
       </mat-error>
@@ -61,15 +67,21 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Mostrar ID solo en modo edición (deshabilitado) -->
-    <mat-form-field *ngIf="usuarioForm.get('idUsuario')?.value" appearance="fill" class="full-width">
+    <!-- Campo ID solo en modo edición (as: idUsuario es la sintaxis moderna Angular 17+/20+) -->
+    <mat-form-field *if="usuarioForm.get('idUsuario')?.value as idUsuario" appearance="outline" class="full-width">
       <mat-label>ID</mat-label>
       <input matInput formControlName="idUsuario" [disabled]="true" autocomplete="off" />
     </mat-form-field>
-  </form>
-</div>
 
-<div mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="usuarioForm.invalid">Guardar</button>
-</div>
+  </form>
+</mat-dialog-content>
+
+<!-- Barra de acciones con botones de cancelar y guardar -->
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" class="cancel-button">
+    Cancelar
+  </button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="usuarioForm.invalid" class="save-button">
+    Guardar
+  </button>
+</mat-dialog-actions>

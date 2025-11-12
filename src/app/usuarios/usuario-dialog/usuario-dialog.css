@@ -1,9 +1,59 @@
-/* Hace que los campos del formulario tengan ancho completo */
-.full-width {
-  width: 100%;
+/* Contenedor del diálogo */
+.usuario-dialog-container {
+  font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Margen inferior para separar campos */
-mat-form-field {
-  margin-bottom: 15px;
+/* El campo ocupará el 100% del ancho disponible */
+.full-width {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Estilo para los botones Cancelar y Guardar con efecto hover y sombras */
+.cancel-button {
+  color: #2563eb;
+  background: transparent;
+  border: 1.5px solid #2563eb;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 20px;
+  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.09);
+  transition: background 0.14s, color 0.13s, border-color 0.13s;
+}
+.cancel-button:hover {
+  background: #e0edff;
+  color: #1e3a8a;
+  border-color: #1e3a8a;
+}
+
+.save-button {
+  background: linear-gradient(92deg, #2563eb 20%, #3b82f6 99%);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 28px;
+  border: none;
+  font-size: 15.5px;
+  letter-spacing: 0.07em;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.save-button:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.26);
+}
+.save-button[disabled] {
+  background-color: #b1ccf7 !important;
+  box-shadow: none;
+  color: #f1f5fb;
+  cursor: not-allowed;
+}
+
+/* Estilo de los mensajes de error */
+mat-error {
+  color: #d82c2c;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
 }

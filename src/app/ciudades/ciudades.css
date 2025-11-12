@@ -1,71 +1,130 @@
-.container {
-  padding: 20px;
-  max-width: 1200px;
+.ciudades-container {
+  /* Espaciado interno y centrado */
+  padding: 30px;
+  max-width: 1100px;
   margin: 0 auto;
-  background: linear-gradient(120deg, #f8fafd 0%, #e4ecfa 100%);
-  border-radius: 14px;
-  box-shadow: 0 6px 32px rgba(80, 75, 170, 0.09), 0 2px 4px rgba(60, 60, 80, 0.08);
+
+  /* Fondo moderno con degradado azul */
+  background: linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6);
+
+  /* Bordes redondeados y sombra "card" */
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+
+  /* Animación de entrada cuando aparece en pantalla */
+  animation: fadeIn 0.8s ease-in-out;
+
+  color: #1e3a8a;
+  font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Animación suave para el contenedor */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === Header superior con título y botón "Crear ciudad" === */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  background: linear-gradient(92deg, #6080ea 0%, #835ac8 100%);
-  padding: 16px 28px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(80, 90, 170, 0.10);
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
+
 .header h1 {
   margin: 0;
-  color: #fff;
-  font-size: 28px;
+  font-weight: 700;
+  font-size: 26px;
+  color: #1e3a8a;
 }
 
-.categorias-table {
+.header button {
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.header button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+/* === Tabla principal de ciudades con Material Design === */
+.ciudades-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 2px 8px rgba(100, 115, 200, 0.09);
-  background: #fff;
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
 }
 
-.categorias-table th {
-  background-color: #f6f8fd;
-  padding: 12px;
+/* Encabezados de la tabla */
+.ciudades-table th {
+  background-color: #f1f5ff;
+  padding: 14px;
   text-align: left;
-  border-bottom: 2px solid #e0e0e0;
   font-weight: 600;
+  color: #1e3a8a;
+  border-bottom: 2px solid #dbeafe;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.categorias-table td {
+/* Celdas normales de la tabla */
+.ciudades-table td {
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e7ff;
+  color: #1e293b;
 }
 
-.categorias-table tr:hover {
-  background-color: #eceefd;
-  transition: background 0.2s;
+/* Efecto visual al pasar el mouse por una fila */
+.ciudades-table tr:hover {
+  background-color: #eff6ff;
+  transition: background-color 0.2s ease;
 }
 
-.categorias-table button {
-  margin: 0 5px;
+/* Color del icono de botón Material dentro de la tabla */
+button[mat-icon-button] mat-icon {
+  color: #2563eb;
 }
 
+/* === Mensaje y estilos para cuando no hay ciudades registradas === */
 .no-data {
   text-align: center;
-  padding: 40px;
-  color: #9aaacf;
+  padding: 28px;
+  color: #1e3a8a;
+  font-weight: 500;
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-/* Reutilizar utilidades */
-.full-width {
-  width: 100%;
+.no-data mat-icon {
+  color: #2563eb;
+  font-size: 22px;
 }
 
-mat-form-field {
-  margin-bottom: 15px;
+/* === Ajustes responsivos para pantallas pequeñas === */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .ciudades-container {
+    padding: 20px;
+  }
+  th,
+  td {
+    font-size: 14px;
+  }
 }

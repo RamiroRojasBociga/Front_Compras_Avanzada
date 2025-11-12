@@ -1,70 +1,135 @@
-/* Contenedor principal con fondo degradado y bordes redondeados */
-.container {
-  padding: 20px;
-  max-width: 1200px;
+/* Contenedor principal con fondo degradado azul y estilo moderno */
+.usuarios-container {
+  padding: 30px;
+  max-width: 1100px;
   margin: 0 auto;
-  background: linear-gradient(120deg, #f8fafd 0%, #e4ecfa 100%);
-  border-radius: 14px;
-  box-shadow: 0 6px 32px rgba(80, 75, 170, 0.09), 0 2px 4px rgba(60, 60, 80, 0.08);
+  background: linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+  animation: fadeIn 0.8s ease-in-out;
+  color: #1e3a8a;
+  font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Header con fondo degradado y espacio para título y botón */
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header con distribución horizontal, fondo blanco y sombra */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  background: linear-gradient(92deg, #6080ea 0%, #835ac8 100%);
-  padding: 16px 28px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(80, 90, 170, 0.10);
+  background: #fff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
+
+/* Título principal del header */
 .header h1 {
   margin: 0;
-  color: #fff;
-  font-size: 28px;
+  font-weight: 700;
+  font-size: 26px;
+  color: #1e3a8a;
 }
 
-/* Tabla Material blanca con sombra y bordes redondeados */
-.categorias-table {
+/* Estilo botón "Crear Usuario" */
+.header button {
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Animación al pasar el cursor */
+.header button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+/* Tabla con fondo blanco y bordes redondeados */
+.usuarios-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 2px 8px rgba(100, 115, 200, 0.09);
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
 }
 
-/* Estilo encabezados de tabla */
-.categorias-table th {
-  background-color: #f6f8fd;
-  padding: 12px;
-  text-align: left;
-  border-bottom: 2px solid #e0e0e0;
+/* Estilo para encabezados de tabla */
+.usuarios-table th {
+  background-color: #f1f5ff;
+  padding: 14px;
   font-weight: 600;
+  color: #1e3a8a;
+  border-bottom: 2px solid #dbeafe;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
 }
 
-/* Estilo celdas de tabla */
-.categorias-table td {
+/* Estilo para celdas */
+.usuarios-table td {
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e7ff;
+  color: #1e293b;
 }
 
-/* Cambio de color de fila al pasar mouse */
-.categorias-table tr:hover {
-  background-color: #eceefd;
-  transition: background 0.2s;
+/* Efecto hover para filas */
+.usuarios-table tr:hover {
+  background-color: #eff6ff;
+  transition: background-color 0.2s ease;
 }
 
-/* Margen horizontal para botones */
-.categorias-table button {
-  margin: 0 5px;
+/* Color para iconos dentro de botones */
+button[mat-icon-button] mat-icon {
+  color: #2563eb;
 }
 
-/* Mensaje para cuando no hay datos */
+/* Mensaje y estilo para cuando no hay datos */
 .no-data {
   text-align: center;
-  padding: 40px;
-  color: #9aaacf;
+  padding: 28px;
+  color: #1e3a8a;
+  font-weight: 500;
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.no-data mat-icon {
+  color: #2563eb;
+  font-size: 22px;
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .usuarios-container {
+    padding: 20px;
+  }
+
+  th,
+  td {
+    font-size: 14px;
+  }
 }

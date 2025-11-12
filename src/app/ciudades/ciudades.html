@@ -1,4 +1,6 @@
-<div class="container">
+<!-- Contenedor visual principal de toda la funcionalidad de Ciudades -->
+<div class="ciudades-container">
+  <!-- Header con título y botón de acción para crear nuevas ciudades -->
   <div class="header">
     <h1>Ciudades</h1>
     <button mat-raised-button color="primary" (click)="openDialog()">
@@ -6,34 +8,43 @@
     </button>
   </div>
 
-  <table mat-table [dataSource]="dataSource" class="categorias-table">
+  <!-- Tabla principal con Angular Material -->
+  <table mat-table [dataSource]="dataSource" class="ciudades-table">
+    <!-- Columna para el ID de la ciudad -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>ID</th>
       <td mat-cell *matCellDef="let ciudad">{{ ciudad.id }}</td>
     </ng-container>
 
+    <!-- Columna para el nombre de la ciudad -->
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef>Nombre</th>
       <td mat-cell *matCellDef="let ciudad">{{ ciudad.nombre }}</td>
     </ng-container>
 
+    <!-- Columna de acciones: editar y eliminar ciudad -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let ciudad">
+        <!-- Botón editar -->
         <button mat-icon-button matTooltip="Editar" (click)="openDialog(ciudad)">
           <mat-icon>edit</mat-icon>
         </button>
+        <!-- Botón eliminar -->
         <button mat-icon-button matTooltip="Eliminar" color="warn" (click)="deleteCiudad(ciudad.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
     </ng-container>
 
+    <!-- Filas de encabezado y de datos -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
+  <!-- Mensaje visual amigable cuando no hay datos -->
   <div *ngIf="dataSource.data.length === 0" class="no-data">
-    No hay ciudades creadas
+    <mat-icon>location_city</mat-icon>
+    No hay ciudades registradas
   </div>
 </div>
