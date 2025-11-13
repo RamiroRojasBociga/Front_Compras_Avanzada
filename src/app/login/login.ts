@@ -46,7 +46,7 @@ export class Login {
     const credentials = this.loginForm.value;
     this.authService.login(credentials).subscribe({
       next: response => {
-        this.router.navigate(['/categorias']);
+        this.router.navigate(['/menu']);
       },
       error: error => {
         this.errorMessage = 'Credenciales invalidas. Intenta de nuevo.';

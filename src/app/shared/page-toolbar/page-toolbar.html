@@ -1,0 +1,20 @@
+<mat-toolbar color="primary" class="page-toolbar">
+  <!-- Botón de regreso con texto visible -->
+  <button mat-button class="back-button" (click)="goBackToMenu()">
+    <mat-icon>arrow_back</mat-icon>
+    <span class="button-text">Volver al Menú Principal</span>
+  </button>
+  
+  <span class="spacer"></span>
+  
+  <!-- Botón de acción opcional -->
+  <button 
+    *ngIf="showActionButton" 
+    mat-raised-button 
+    color="accent" 
+    class="action-button"
+    (click)="onAction()">
+    <mat-icon *ngIf="actionIcon">{{ actionIcon }}</mat-icon>
+    {{ actionButtonText }}
+  </button>
+</mat-toolbar>

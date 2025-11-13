@@ -1,0 +1,127 @@
+<div class="proveedor-dialog-container">
+  <h2 class="dialog-title">
+    @if (proveedorForm.get('idProveedor')?.value) {
+      Editar Proveedor
+    } @else {
+      Nuevo Proveedor
+    }
+  </h2>
+
+  <form [formGroup]="proveedorForm" class="dialog-form">
+    <!-- Campo Nombre -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Proveedor</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: Distribuidora XYZ" autocomplete="off" />
+      @if (proveedorForm.get('nombre')?.hasError('required')) {
+        <mat-error>El nombre es obligatorio</mat-error>
+      }
+      @if (proveedorForm.get('nombre')?.hasError('minlength')) {
+        <mat-error>Mínimo 3 caracteres</mat-error>
+      }
+      @if (proveedorForm.get('nombre')?.hasError('maxlength')) {
+        <mat-error>Máximo 120 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo Ciudad -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Ciudad</mat-label>
+      <mat-select formControlName="idCiudad">
+        @for (ciudad of ciudades; track ciudad.id) {
+          <mat-option [value]="ciudad.id">{{ ciudad.nombre }}</mat-option>
+        }
+      </mat-select>
+      @if (proveedorForm.get('idCiudad')?.hasError('required')) {
+        <mat-error>La ciudad es obligatoria</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo Dirección -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="direccion" placeholder="Ej: Calle 45 #12-34" autocomplete="off" />
+      @if (proveedorForm.get('direccion')?.hasError('required')) {
+        <mat-error>La dirección es obligatoria</mat-error>
+      }
+      @if (proveedorForm.get('direccion')?.hasError('maxlength')) {
+        <mat-error>Máximo 150 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo Email -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Ej: contacto@proveedor.com" autocomplete="off" />
+      @if (proveedorForm.get('email')?.hasError('required')) {
+        <mat-error>El email es obligatorio</mat-error>
+      }
+      @if (proveedorForm.get('email')?.hasError('email')) {
+        <mat-error>Email inválido</mat-error>
+      }
+      @if (proveedorForm.get('email')?.hasError('maxlength')) {
+        <mat-error>Máximo 100 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo Estado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="estado">
+        <mat-option value="ACTIVO">Activo</mat-option>
+        <mat-option value="INACTIVO">Inactivo</mat-option>
+      </mat-select>
+      @if (proveedorForm.get('estado')?.hasError('required')) {
+        <mat-error>El estado es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Sección de Teléfonos -->
+    <div class="telefonos-section">
+      <div class="telefonos-header">
+        <label class="telefonos-label">Teléfonos</label>
+        <button mat-mini-fab color="primary" type="button" (click)="addTelefono()" matTooltip="Agregar teléfono">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      @for (control of telefonos.controls; track $index; let i = $index) {
+        <div class="telefono-row">
+          <mat-form-field appearance="outline" class="telefono-input">
+            <mat-label>Teléfono {{ i + 1 }}</mat-label>
+            <input matInput [formControl]="$any(control)" placeholder="Ej: 3001234567" autocomplete="off" />
+            @if (control.hasError('required')) {
+              <mat-error>El teléfono es obligatorio</mat-error>
+            }
+          </mat-form-field>
+          <button 
+            mat-icon-button 
+            color="warn" 
+            type="button" 
+            (click)="removeTelefono(i)" 
+            [disabled]="telefonos.length === 1"
+            matTooltip="Eliminar teléfono"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-button">
+        Cancelar
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onSave()"
+        [disabled]="proveedorForm.invalid"
+        class="save-button"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

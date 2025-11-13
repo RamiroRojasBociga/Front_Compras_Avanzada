@@ -1,0 +1,36 @@
+<!-- Main toolbar with title and logout button -->
+<mat-toolbar color="primary" class="toolbar">
+  <span class="toolbar-title">
+    <mat-icon>dashboard</mat-icon>
+    Menú Principal
+  </span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    Cerrar Sesión
+  </button>
+</mat-toolbar>
+
+<!-- Main content container with welcome message and menu grid -->
+<div class="menu-container">
+  <div class="welcome-section">
+    <h1>Bienvenido al Sistema de Gestión</h1>
+    <p>Selecciona un módulo para comenzar</p>
+  </div>
+
+  <!-- Grid layout for menu cards - responsive design -->
+  <div class="menu-grid">
+    <mat-card 
+      *ngFor="let option of menuOptions" 
+      class="menu-card"
+      (click)="navigateTo(option.route)">
+      <mat-card-header>
+        <mat-icon class="card-icon">{{ option.icon }}</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ option.title }}</h2>
+        <p>{{ option.description }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Categoria, CategoriaService } from './categoria';
 import { CategoriaDialog } from './categoria-dialog/categoria-dialog';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
 
 // Componente standalone para gestión CRUD de categorías
 @Component({
@@ -21,13 +22,14 @@ import { CategoriaDialog } from './categoria-dialog/categoria-dialog';
     MatIconModule,
     MatDialogModule,
     MatTooltipModule,
-    CategoriaDialog
+    CategoriaDialog,
+    PageToolbar  // ← DEBE estar aquí
   ],
   templateUrl: './categorias.html',
   styleUrls: ['./categorias.css']
 })
 export class Categorias implements OnInit {
-  displayedColumns = ['id', 'nombre', 'acciones'];   // Se muestra el id real del backend
+  displayedColumns = ['id', 'nombre', 'acciones'];
   dataSource = new MatTableDataSource<Categoria>();
 
   private categoriaService = inject(CategoriaService);
@@ -69,7 +71,7 @@ export class Categorias implements OnInit {
     });
   }
 
-  // Elimina una categoría con confirmación previa por id
+  // Elimina una categoría con confirmación previa
   deleteCategoria(id?: number): void {
     if (id && confirm('¿Estás seguro de eliminar esta categoría?')) {
       this.categoriaService.eliminarCategoria(id).subscribe({

@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="header">
+    <h1>Compras</h1>
+    <button mat-raised-button color="primary" (click)="openDialog()">
+      Crear Compra
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="compras-table">
+    <!-- Columna ID -->
+    <ng-container matColumnDef="idCompra">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let compra">{{ compra.idCompra }}</td>
+    </ng-container>
+
+    <!-- Columna Número de Factura -->
+    <ng-container matColumnDef="numFactura">
+      <th mat-header-cell *matHeaderCellDef>Nº Factura</th>
+      <td mat-cell *matCellDef="let compra">
+        <span class="num-factura">{{ compra.numFactura }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Columna Fecha -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let compra">{{ formatFecha(compra.fecha) }}</td>
+    </ng-container>
+
+    <!-- Columna Proveedor -->
+    <ng-container matColumnDef="nombreProveedor">
+      <th mat-header-cell *matHeaderCellDef>Proveedor</th>
+      <td mat-cell *matCellDef="let compra">{{ compra.nombreProveedor }}</td>
+    </ng-container>
+
+    <!-- Columna Usuario -->
+    <ng-container matColumnDef="nombreUsuario">
+      <th mat-header-cell *matHeaderCellDef>Usuario</th>
+      <td mat-cell *matCellDef="let compra">{{ compra.nombreUsuario }}</td>
+    </ng-container>
+
+    <!-- Columna Estado -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let compra">
+        <span [class]="getEstadoClass(compra.estado)">
+          {{ compra.estado }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Columna Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let compra">
+        <button mat-icon-button matTooltip="Editar" (click)="openDialog(compra)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  @if (dataSource.data.length === 0) {
+    <div class="no-data">
+      <mat-icon>shopping_cart</mat-icon>
+      No hay compras registradas
+    </div>
+  }
+</div>

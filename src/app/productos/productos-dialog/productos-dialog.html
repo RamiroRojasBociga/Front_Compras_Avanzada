@@ -1,0 +1,165 @@
+<div class="producto-dialog-container">
+  <h2 class="dialog-title">
+    @if (productoForm.get('idProducto')?.value) {
+      Editar Producto
+    } @else {
+      Nuevo Producto
+    }
+  </h2>
+
+  <form [formGroup]="productoForm" class="dialog-form">
+    <!-- Campo Nombre -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Producto</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: Laptop HP Pavilion" autocomplete="off" />
+      @if (productoForm.get('nombre')?.hasError('required')) {
+        <mat-error>El nombre es obligatorio</mat-error>
+      }
+      @if (productoForm.get('nombre')?.hasError('minlength')) {
+        <mat-error>Mínimo 3 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Fila: Categoría y Marca -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="idCategoria">
+          @if (categorias && categorias.length > 0) {
+            @for (categoria of categorias; track categoria.id) {
+              <mat-option [value]="categoria.id">{{ categoria.nombre }}</mat-option>
+            }
+          } @else {
+            <mat-option disabled>Cargando categorías...</mat-option>
+          }
+        </mat-select>
+        @if (productoForm.get('idCategoria')?.hasError('required')) {
+          <mat-error>La categoría es obligatoria</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Marca</mat-label>
+        <mat-select formControlName="idMarca">
+          @if (marcas && marcas.length > 0) {
+            @for (marca of marcas; track marca.id) {
+              <mat-option [value]="marca.id">{{ marca.nombre }}</mat-option>
+            }
+          } @else {
+            <mat-option disabled>Cargando marcas...</mat-option>
+          }
+        </mat-select>
+        @if (productoForm.get('idMarca')?.hasError('required')) {
+          <mat-error>La marca es obligatoria</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <!-- Fila: Unidad de Medida y Cantidad -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Unidad de Medida</mat-label>
+        <mat-select formControlName="idUnidadMedida">
+          @if (unidadesMedida && unidadesMedida.length > 0) {
+            @for (unidad of unidadesMedida; track unidad.id) {
+              <mat-option [value]="unidad.id">{{ unidad.nombre }}</mat-option>
+            }
+          } @else {
+            <mat-option disabled>Cargando unidades...</mat-option>
+          }
+        </mat-select>
+        @if (productoForm.get('idUnidadMedida')?.hasError('required')) {
+          <mat-error>La unidad de medida es obligatoria</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Cantidad por Unidad</mat-label>
+        <input matInput type="number" formControlName="cantidadUnidadesMedida" placeholder="Ej: 1" />
+        @if (productoForm.get('cantidadUnidadesMedida')?.hasError('required')) {
+          <mat-error>La cantidad es obligatoria</mat-error>
+        }
+        @if (productoForm.get('cantidadUnidadesMedida')?.hasError('min')) {
+          <mat-error>Debe ser mayor a 0</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <!-- Campo Impuesto -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Impuesto</mat-label>
+      <mat-select formControlName="idImpuesto">
+        @if (impuestos && impuestos.length > 0) {
+          @for (impuesto of impuestos; track impuesto.id) {
+            <mat-option [value]="impuesto.id">{{ impuesto.nombre }} ({{ impuesto.porcentaje }}%)</mat-option>
+          }
+        } @else {
+          <mat-option disabled>Cargando impuestos...</mat-option>
+        }
+      </mat-select>
+      @if (productoForm.get('idImpuesto')?.hasError('required')) {
+        <mat-error>El impuesto es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Fila: Precio y Stock -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" formControlName="precio" placeholder="Ej: 150000" step="0.01" />
+        @if (productoForm.get('precio')?.hasError('required')) {
+          <mat-error>El precio es obligatorio</mat-error>
+        }
+        @if (productoForm.get('precio')?.hasError('min')) {
+          <mat-error>Debe ser mayor o igual a 0</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Stock</mat-label>
+        <input matInput type="number" formControlName="stock" placeholder="Ej: 50" />
+        @if (productoForm.get('stock')?.hasError('required')) {
+          <mat-error>El stock es obligatorio</mat-error>
+        }
+        @if (productoForm.get('stock')?.hasError('min')) {
+          <mat-error>No puede ser negativo</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <!-- Campo Estado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="estado">
+        <mat-option value="ACTIVO">Activo</mat-option>
+        <mat-option value="INACTIVO">Inactivo</mat-option>
+      </mat-select>
+      @if (productoForm.get('estado')?.hasError('required')) {
+        <mat-error>El estado es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo Descripción (opcional) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción (opcional)</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3" placeholder="Ej: Producto de alta calidad..."></textarea>
+    </mat-form-field>
+
+    <!-- Botones de acción -->
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-button">
+        Cancelar
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onSave()"
+        [disabled]="productoForm.invalid"
+        class="save-button"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

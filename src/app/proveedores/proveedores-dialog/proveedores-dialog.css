@@ -1,0 +1,184 @@
+.proveedor-dialog-container {
+  background: #fff;
+  padding: 32px 32px 24px 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 32px rgba(37,99,235,0.18), 0 1.5px 7px rgba(60,60,100,0.07);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  max-width: 550px;
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  animation: fadeIn 0.5s;
+  border: 1.5px solid #e0e7ef;
+  overflow: hidden; /* Cambiado de overflow-x a overflow */
+  box-sizing: border-box;
+  max-height: 90vh; /* Limita la altura máxima al 90% del viewport */
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.dialog-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  margin-bottom: 25px;
+  color: #1e3a8a;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e5eafd;
+  flex-shrink: 0; /* El título no se comprime */
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 0;
+  width: 100%;
+  overflow-y: auto; /* Scroll vertical solo en el formulario */
+  overflow-x: hidden;
+  padding-right: 8px; /* Espacio para la barra de scroll */
+  flex: 1; /* Ocupa el espacio disponible */
+}
+
+/* Estilizar la barra de scroll */
+.dialog-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dialog-form::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.dialog-form::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.dialog-form::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.full-width { 
+  width: 100%; 
+  min-width: 0; 
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+input[matInput] {
+  font-size: 17px;
+  border-radius: 7px;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+mat-error {
+  color: #d82c2c;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* Sección de teléfonos */
+.telefonos-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.telefonos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.telefonos-label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1e3a8a;
+}
+
+.telefono-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.telefono-input {
+  flex: 1;
+  margin-bottom: 0 !important;
+}
+
+/* Botones de acción - fijos en la parte inferior */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: 18px;
+  width: 100%;
+  flex-shrink: 0; /* Los botones no se comprimen */
+  padding-top: 18px;
+  border-top: 1px solid #e5eafd; /* Separador visual */
+}
+
+.cancel-button {
+  color: #2563eb;
+  background: #fff;
+  border: 1.5px solid #2563eb;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 20px;
+  transition: background 0.14s, color 0.13s, border-color 0.13s;
+  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.09);
+}
+
+.cancel-button:hover {
+  background: #e0edff;
+  color: #1e3a8a;
+  border-color: #1e3a8a;
+}
+
+.save-button {
+  background: linear-gradient(92deg, #2563eb 20%, #3b82f6 99%);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 28px;
+  border: none;
+  font-size: 15.5px;
+  letter-spacing: 0.07em;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.save-button:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.26);
+}
+
+.save-button[disabled] {
+  background-color: #b1ccf7 !important;
+  box-shadow: none;
+  color: #f1f5fb;
+  cursor: not-allowed;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-height: 768px) {
+  .proveedor-dialog-container {
+    max-height: 85vh; /* Reduce altura en pantallas pequeñas */
+  }
+}
