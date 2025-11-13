@@ -8,7 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Categoria, CategoriaService } from './categoria';
 import { CategoriaDialog } from './categoria-dialog/categoria-dialog';
-import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';  // ← Solo agregar esta línea
 
 // Componente standalone para gestión CRUD de categorías
 @Component({
@@ -23,7 +23,7 @@ import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
     MatDialogModule,
     MatTooltipModule,
     CategoriaDialog,
-    PageToolbar  // ← DEBE estar aquí
+    PageToolbar  // ← Solo agregar esta línea
   ],
   templateUrl: './categorias.html',
   styleUrls: ['./categorias.css']
@@ -71,7 +71,7 @@ export class Categorias implements OnInit {
     });
   }
 
-  // Elimina una categoría con confirmación previa
+  // Elimina una categoría con confirmación previa por id
   deleteCategoria(id?: number): void {
     if (id && confirm('¿Estás seguro de eliminar esta categoría?')) {
       this.categoriaService.eliminarCategoria(id).subscribe({

@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Ciudad, CiudadService } from './ciudad';
 import { CiudadDialog } from './ciudad-dialog/ciudad-dialog';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
 
 // Componente standalone para CRUD ciudades
 @Component({
@@ -21,6 +22,7 @@ import { CiudadDialog } from './ciudad-dialog/ciudad-dialog';
     MatIconModule,
     MatDialogModule,
     MatTooltipModule,
+    PageToolbar,
     CiudadDialog
   ],
   templateUrl: './ciudades.html',
