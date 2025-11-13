@@ -8,6 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Impuesto, ImpuestoService } from './impuesto';
 import { ImpuestosDialog } from './impuestos-dialog/impuestos-dialog';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
+
 
 // Componente standalone para CRUD de impuestos
 @Component({
@@ -21,6 +23,7 @@ import { ImpuestosDialog } from './impuestos-dialog/impuestos-dialog';
     MatIconModule,
     MatDialogModule,
     MatTooltipModule,
+    PageToolbar,
     ImpuestosDialog
   ],
   templateUrl: './impuestos.html',

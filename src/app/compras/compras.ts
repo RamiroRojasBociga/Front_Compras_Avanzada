@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Compra, CompraService } from './compra';
 import { ComprasDialog } from './compras-dialog/compras-dialog';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
 
 @Component({
   standalone: true,
@@ -18,6 +19,7 @@ import { ComprasDialog } from './compras-dialog/compras-dialog';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    PageToolbar,
     MatTooltipModule
   ],
   templateUrl: './compras.html',

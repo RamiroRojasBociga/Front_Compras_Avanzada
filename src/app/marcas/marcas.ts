@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
 
 import { Marca, MarcaService } from './marca';
 import { MarcaDialog } from './marca-dialog/marca-dialog';
@@ -20,6 +21,7 @@ import { MarcaDialog } from './marca-dialog/marca-dialog';
     MatIconModule,
     MatDialogModule,
     MatTooltipModule,
+    PageToolbar,
     MarcaDialog
   ],
   templateUrl: './marcas.html',

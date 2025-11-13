@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
+
 
 import { Producto, ProductoService } from './producto';
 import { ProductosDialog } from './productos-dialog/productos-dialog';
@@ -19,6 +21,7 @@ import { ProductosDialog } from './productos-dialog/productos-dialog';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    PageToolbar,
     MatTooltipModule
   ],
   templateUrl: './productos.html',

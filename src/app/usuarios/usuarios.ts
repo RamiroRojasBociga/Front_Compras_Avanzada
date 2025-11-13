@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
+
 
 import { Usuario, UsuarioService } from './usuario';
 import { UsuarioDialog } from './usuario-dialog/usuario-dialog';
@@ -20,6 +22,7 @@ import { UsuarioDialog } from './usuario-dialog/usuario-dialog';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    PageToolbar,
     MatTooltipModule,
     UsuarioDialog
   ],

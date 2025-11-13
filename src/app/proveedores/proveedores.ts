@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { PageToolbar } from '../shared/page-toolbar/page-toolbar';
+
 
 import { Proveedor, ProveedorService } from './proveedor';
 import { ProveedoresDialog } from './proveedores-dialog/proveedores-dialog';
@@ -21,6 +23,7 @@ import { ProveedoresDialog } from './proveedores-dialog/proveedores-dialog';
     MatIconModule,
     MatDialogModule,
     MatTooltipModule,
+    PageToolbar,
     MatChipsModule
     // ❌ NO incluir ProveedoresDialog aquí
   ],
