@@ -1,0 +1,124 @@
+/* Contenedor principal con fondo degradado azul */
+.container {
+  padding: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+  animation: fadeIn 0.8s ease-in-out;
+  color: #1e3a8a;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Animación de aparición suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado con título y botón */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 26px;
+  color: #1e3a8a;
+}
+
+.header button {
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+/* Tabla principal con estilos Material */
+.unidades-medida-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
+}
+
+/* Encabezados de columnas */
+.unidades-medida-table th {
+  background-color: #f1f5ff;
+  padding: 14px;
+  text-align: left;
+  font-weight: 600;
+  color: #1e3a8a;
+  border-bottom: 2px solid #dbeafe;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Celdas de datos */
+.unidades-medida-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e7ff;
+  color: #1e293b;
+}
+
+/* Efecto hover en filas */
+.unidades-medida-table tr:hover {
+  background-color: #eff6ff;
+  transition: background-color 0.2s ease;
+}
+
+/* Íconos de botones de acción */
+button[mat-icon-button] mat-icon {
+  color: #2563eb;
+}
+
+/* Mensaje cuando no hay datos */
+.no-data {
+  text-align: center;
+  padding: 28px;
+  color: #1e3a8a;
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.no-data mat-icon {
+  color: #2563eb;
+  font-size: 22px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .container {
+    padding: 20px;
+  }
+  th,
+  td {
+    font-size: 14px;
+  }
+}

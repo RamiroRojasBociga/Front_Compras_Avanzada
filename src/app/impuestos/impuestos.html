@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="header">
+    <h1>Impuestos</h1>
+    <button mat-raised-button color="primary" (click)="openDialog()">
+      Crear Impuesto
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="impuestos-table">
+    <!-- Columna ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let impuesto">{{ impuesto.id }}</td>
+    </ng-container>
+
+    <!-- Columna Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let impuesto">{{ impuesto.nombre }}</td>
+    </ng-container>
+
+    <!-- Columna Porcentaje -->
+    <ng-container matColumnDef="porcentaje">
+      <th mat-header-cell *matHeaderCellDef>Porcentaje (%)</th>
+      <td mat-cell *matCellDef="let impuesto">{{ impuesto.porcentaje }}</td>
+    </ng-container>
+
+    <!-- Columna Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let impuesto">
+        <button mat-icon-button matTooltip="Editar" (click)="openDialog(impuesto)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Eliminar" color="warn" (click)="deleteImpuesto(impuesto.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  @if (dataSource.data.length === 0) {
+    <div class="no-data">
+      <mat-icon>receipt</mat-icon>
+      No hay impuestos registrados
+    </div>
+  }
+</div>

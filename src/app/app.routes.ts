@@ -1,39 +1,49 @@
 import { Routes } from '@angular/router';
 
-import { Login} from './login/login';
+import { Login } from './login/login';
 import { Categorias } from './categorias/categorias';
 import { Marcas } from './marcas/marcas';
 import { Ciudades } from './ciudades/ciudades';
 import { Usuarios } from './usuarios/usuarios';
+import { UnidadesMedida } from './unidades-medida/unidades-medida';
+import { Impuestos } from './impuestos/impuestos'; // Asegúrate de tener esta importación
 
 export const routes: Routes = [
   {
-    path: 'login',                // Ruta para login
+    path: 'login',
     component: Login
   },
   {
-    path: 'categorias',           // Ruta para categorías
+    path: 'categorias',
     component: Categorias
   },
   {
-    path: 'marcas',               // Ruta para marcas
+    path: 'marcas',
     component: Marcas
   },
   {
-    path: 'ciudades',               // Ruta para ciudades
+    path: 'ciudades',
     component: Ciudades
   },
   {
-    path: 'usuarios',               // Ruta para usuarios
+    path: 'usuarios',
     component: Usuarios
   },
   {
-    path: '',                     // Ruta raíz
-    redirectTo: '/login',         // Redirección por defecto
+    path: 'unidades-medida',
+    component: UnidadesMedida
+  },
+  {
+    path: 'impuestos',             // Ruta para impuestos
+    component: Impuestos
+  },
+  {
+    path: '',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
-    path: '**',                   // Ruta comodín
-    redirectTo: '/login'          // Redirección para rutas no encontradas
+    path: '**',
+    redirectTo: '/login'
   }
 ];

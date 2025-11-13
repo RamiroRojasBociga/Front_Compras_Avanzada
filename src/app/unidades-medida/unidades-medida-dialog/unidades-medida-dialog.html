@@ -1,0 +1,52 @@
+<!-- Contenedor principal del diálogo -->
+<div class="unidad-medida-dialog-container">
+  <!-- Título dinámico según modo edición o creación -->
+  <h2 class="dialog-title">
+    {{ unidadForm.get('id')?.value ? 'Editar Unidad de Medida' : 'Nueva Unidad de Medida' }}
+  </h2>
+
+  <!-- Formulario reactivo -->
+  <form [formGroup]="unidadForm" class="dialog-form">
+    <!-- Campo para nombre de la unidad -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre de la Unidad</mat-label>
+      <input
+        matInput
+        formControlName="nombre"
+        placeholder="Ej: Kilogramo"
+        autocomplete="off"
+      />
+      <!-- Mensajes de error -->
+      <mat-error *ngIf="unidadForm.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+      <mat-error *ngIf="unidadForm.get('nombre')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Campo ID visible solo en modo edición -->
+    <mat-form-field *ngIf="unidadForm.get('id')?.value" appearance="outline" class="full-width">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="id" [disabled]="true" />
+    </mat-form-field>
+
+    <!-- Botones de acción -->
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-button">
+        Cancelar
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onSave()"
+        [disabled]="unidadForm.invalid"
+        class="save-button"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,63 @@
+<div class="impuesto-dialog-container">
+  <h2 class="dialog-title">
+    @if (impuestoForm.get('id')?.value) {
+      Editar Impuesto
+    } @else {
+      Nuevo Impuesto
+    }
+  </h2>
+
+  <form [formGroup]="impuestoForm" class="dialog-form">
+    <!-- Campo Nombre -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Impuesto</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: IVA 19%" autocomplete="off" />
+      @if (impuestoForm.get('nombre')?.hasError('required')) {
+        <mat-error>El nombre es obligatorio</mat-error>
+      }
+      @if (impuestoForm.get('nombre')?.hasError('minlength')) {
+        <mat-error>Mínimo 3 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo Porcentaje -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Porcentaje</mat-label>
+      <input matInput type="number" formControlName="porcentaje" placeholder="Ej: 19.00" step="0.01" />
+      @if (impuestoForm.get('porcentaje')?.hasError('required')) {
+        <mat-error>El porcentaje es obligatorio</mat-error>
+      }
+      @if (impuestoForm.get('porcentaje')?.hasError('min')) {
+        <mat-error>Debe ser mayor o igual a 0</mat-error>
+      }
+      @if (impuestoForm.get('porcentaje')?.hasError('max')) {
+        <mat-error>Debe ser menor o igual a 100</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Campo ID (solo en edición) -->
+    @if (impuestoForm.get('id')?.value) {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>ID</mat-label>
+        <input matInput formControlName="id" [disabled]="true" />
+      </mat-form-field>
+    }
+
+    <!-- Botones de acción -->
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-button">
+        Cancelar
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onSave()"
+        [disabled]="impuestoForm.invalid"
+        class="save-button"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>
