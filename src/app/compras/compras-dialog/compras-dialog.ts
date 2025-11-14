@@ -1,3 +1,4 @@
+// compras-dialog.ts
 import { Component, Inject, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
@@ -14,8 +15,7 @@ import { Compra, DetalleCompra } from '../compra';
 import { ProductoService, Producto } from '../../productos/producto';
 import { ProveedorService, Proveedor } from '../../proveedores/proveedor';
 import { UsuarioService, Usuario } from '../../usuarios/usuario';
-import { CompraService } from '../compra';
-import { DetalleCompraService } from '../compra';
+import { CompraService, DetalleCompraService } from '../compra';
 
 @Component({
   standalone: true,
@@ -36,7 +36,7 @@ import { DetalleCompraService } from '../compra';
   styleUrls: ['./compras-dialog.css']
 })
 export class ComprasDialog implements OnInit {
-  // Inyección de dependencias
+
   fb = inject(FormBuilder);
   productoService = inject(ProductoService);
   proveedorService = inject(ProveedorService);
@@ -45,20 +45,22 @@ export class ComprasDialog implements OnInit {
   detalleCompraService = inject(DetalleCompraService);
 
   compraForm: FormGroup;
+
   productos: Producto[] = [];
   proveedores: Proveedor[] = [];
   usuarios: Usuario[] = [];
 
-  // Definición de estados disponibles para las compras
   estados = [
-    { value: 'PENDIENTE', label: 'Pendiente' },
-    { value: 'PROCESADA', label: 'Procesada' },
-    { value: 'ENTREGADA', label: 'Entregada' },
-    { value: 'FACTURADA', label: 'Facturada' },
-    { value: 'ANULADA', label: 'Anulada' }
+    { value: 'PENDIENTE',  label: 'Pendiente' },
+    { value: 'PROCESADA',  label: 'Procesada' },
+    { value: 'ENTREGADA',  label: 'Entregada' },
+    { value: 'FACTURADA',  label: 'Facturada' },
+    { value: 'ANULADA',    label: 'Anulada' }
   ];
 
-  // Getter para acceder fácilmente al FormArray de detalles
+  // Lista de ids de detalles eliminados en la edición
+  detallesEliminados: number[] = [];
+
   get detalles(): FormArray<FormGroup> {
     return this.compraForm.get('detalles') as FormArray<FormGroup>;
   }
@@ -67,87 +69,113 @@ export class ComprasDialog implements OnInit {
     public dialogRef: MatDialogRef<ComprasDialog>,
     @Inject(MAT_DIALOG_DATA) public data: Compra & { detalles?: DetalleCompra[] }
   ) {
-    // Inicialización del formulario con datos existentes o valores por defecto
     let fechaInicial = new Date();
+
     if (data?.fecha) {
-      // Parseo de fecha desde diferentes formatos
       if (data.fecha.includes('-')) {
         const [year, month, day] = data.fecha.split('-').map(Number);
         fechaInicial = new Date(year, month - 1, day);
-      }
-      else if (data.fecha.includes('/')) {
+      } else if (data.fecha.includes('/')) {
         const [day, month, year] = data.fecha.split('/').map(Number);
         fechaInicial = new Date(year, month - 1, day);
       }
     }
 
     this.compraForm = this.fb.group({
-      idCompra: [data?.idCompra ?? null],
-      idUsuario: [data?.idUsuario ?? null, [Validators.required]],
+      idCompra:    [data?.idCompra ?? null],
+      idUsuario:   [data?.idUsuario ?? null, [Validators.required]],
       idProveedor: [data?.idProveedor ?? null, [Validators.required]],
-      fecha: [fechaInicial, [Validators.required]],
-      estado: [data?.estado ?? 'PENDIENTE', [Validators.required]],
-      total: [data?.total ?? 0],
-      detalles: this.fb.array([])
+      fecha:       [fechaInicial, [Validators.required]],
+      estado:      [data?.estado ?? 'PENDIENTE', [Validators.required]],
+      total:       [data?.total ?? 0],
+      detalles:    this.fb.array([])
     });
 
-    // Carga los detalles existentes si se está editando una compra
     if (data?.detalles && data.detalles.length > 0) {
+      this.detalles.clear();
       data.detalles.forEach(det => {
-        this.detalles.push(this.crearDetalleConValores(det));
+        const fg = this.crearDetalleConValores(det);
+        this.detalles.push(fg);
       });
-      // Calcula el total inicial con los detalles cargados
-      setTimeout(() => this.calcularTotal(), 100);
+      this.recalcularTodo();
     }
   }
 
   ngOnInit(): void {
     this.loadCatalogos();
+
+    if (this.data?.idCompra) {
+      this.cargarDetallesCompra(this.data.idCompra);
+    }
   }
 
-  // Carga los catálogos necesarios para los selectores
   loadCatalogos() {
     this.productoService.getProductos().subscribe({
       next: (productos) => { this.productos = productos; },
       error: (error) => console.error('Error cargando productos:', error)
     });
+
     this.proveedorService.getProveedores().subscribe({
       next: (proveedores) => { this.proveedores = proveedores; },
       error: (error) => console.error('Error cargando proveedores:', error)
     });
+
     this.usuarioService.getUsuarios().subscribe({
       next: (usuarios) => { this.usuarios = usuarios; },
       error: (error) => console.error('Error cargando usuarios:', error)
     });
   }
 
-  // Crea un FormGroup para un detalle con valores existentes
+  // Cargar detalles de una compra existente
+  cargarDetallesCompra(idCompra: number) {
+    this.detalleCompraService.getDetallesByCompraId(idCompra).subscribe({
+      next: (detalles: DetalleCompra[]) => {
+        this.detalles.clear();
+        this.detallesEliminados = [];
+        detalles.forEach(det => {
+          const fg = this.crearDetalleConValores(det);
+          this.detalles.push(fg);
+        });
+        this.recalcularTodo();
+      },
+      error: (error: any) => {
+        console.error('Error cargando detalles de la compra:', error);
+      }
+    });
+  }
+
+  // Crea un detalle con valores desde el backend (incluye idDetalleCompra)
   crearDetalleConValores(det: DetalleCompra): FormGroup {
     const detalle = this.fb.group({
-      idProducto: [det.idProducto, Validators.required],
-      cantidad: [det.cantidad, [Validators.required, Validators.min(1)]],
-      precioUnitario: [det.precioUnitario || 0, [Validators.required, Validators.min(0)]],
-      subtotal: [{ value: det.subtotal || 0, disabled: true }]
+      idDetalleCompra: [det.idDetalleCompra ?? null],                      // nuevo
+      idProducto:      [det.idProducto, Validators.required],
+      cantidad:        [det.cantidad ?? 1, [Validators.required, Validators.min(1)]],
+      precioUnitario:  [det.precioUnitario ?? 0, [Validators.required, Validators.min(0)]],
+      subtotal:        [{ value: 0, disabled: true }]
     });
 
     this.subscribeToChanges(detalle);
+    this.calcularSubtotal(detalle);
+
     return detalle;
   }
 
-  // Crea un FormGroup para un nuevo detalle vacío
+  // Crea un detalle nuevo vacío (sin idDetalleCompra)
   nuevaLineaDetalle(): FormGroup {
     const detalle = this.fb.group({
-      idProducto: [null, Validators.required],
-      cantidad: [1, [Validators.required, Validators.min(1)]],
-      precioUnitario: [0, [Validators.required, Validators.min(0)]],
-      subtotal: [{ value: 0, disabled: true }]
+      idDetalleCompra: [null],
+      idProducto:      [null, Validators.required],
+      cantidad:        [1, [Validators.required, Validators.min(1)]],
+      precioUnitario:  [0, [Validators.required, Validators.min(0)]],
+      subtotal:        [{ value: 0, disabled: true }]
     });
 
     this.subscribeToChanges(detalle);
+    this.calcularSubtotal(detalle);
+
     return detalle;
   }
 
-  // Suscribe a los cambios en los campos del detalle para cálculos automáticos
   subscribeToChanges(detalle: FormGroup): void {
     detalle.get('cantidad')?.valueChanges.subscribe(() => {
       this.calcularSubtotal(detalle);
@@ -162,97 +190,117 @@ export class ComprasDialog implements OnInit {
     });
   }
 
-  // Cuando cambia el producto, actualiza el precio unitario automáticamente
   onProductoChange(detalle: FormGroup, idProducto: number): void {
     const producto = this.productos.find(p => p.idProducto === idProducto);
-    if (producto && producto.precio) {
+    if (producto && producto.precio != null) {
       detalle.get('precioUnitario')?.setValue(producto.precio);
     }
   }
 
-  // Calcula el subtotal para un detalle específico
   calcularSubtotal(detalle: FormGroup): void {
-    const cantidad = detalle.get('cantidad')?.value || 0;
-    const precio = detalle.get('precioUnitario')?.value || 0;
+    const cantidad = Number(detalle.get('cantidad')?.value) || 0;
+    const precio   = Number(detalle.get('precioUnitario')?.value) || 0;
     const subtotal = cantidad * precio;
-    
+
     detalle.get('subtotal')?.setValue(subtotal, { emitEvent: false });
     this.calcularTotal();
   }
 
-  // Calcula el total de toda la compra sumando todos los subtotales
   calcularTotal(): number {
     let total = 0;
     this.detalles.controls.forEach(detalle => {
-      total += detalle.get('subtotal')?.value || 0;
+      const sub = Number(detalle.get('subtotal')?.value) || 0;
+      total += sub;
     });
     this.compraForm.get('total')?.setValue(total, { emitEvent: false });
     return total;
   }
 
-  // Getter para el total de la compra (usado en el template)
-  get totalCompra(): number {
-    return this.calcularTotal();
+  recalcularTodo(): void {
+    this.detalles.controls.forEach(det => this.calcularSubtotal(det));
+    this.calcularTotal();
   }
 
-  // Agrega una nueva línea de detalle a la compra
+  get totalCompra(): number {
+    return this.compraForm.get('total')?.value || 0;
+  }
+
   agregarDetalle() {
     this.detalles.push(this.nuevaLineaDetalle());
+    this.calcularTotal();
   }
 
-  // Elimina una línea de detalle específica
+  // Registrar eliminados y quitar del FormArray
   eliminarDetalle(index: number) {
+    const grupo = this.detalles.at(index) as FormGroup;
+    const idDetalle = grupo.get('idDetalleCompra')?.value as number | null;
+
+    if (idDetalle) {
+      this.detallesEliminados.push(idDetalle);
+    }
+
     this.detalles.removeAt(index);
     this.calcularTotal();
   }
 
-  // Método principal para guardar la compra y sus detalles
+  // Guardar compra + detalles (nuevos) + eliminar detalles borrados
   async onSave(): Promise<void> {
     if (this.compraForm.valid && this.detalles.length > 0) {
       const formValue = { ...this.compraForm.getRawValue() };
 
-      // Convierte fecha a formato YYYY-MM-DD (ISO) para el backend
       if (formValue.fecha instanceof Date) {
-        const year = formValue.fecha.getFullYear();
+        const year  = formValue.fecha.getFullYear();
         const month = String(formValue.fecha.getMonth() + 1).padStart(2, '0');
-        const day = String(formValue.fecha.getDate()).padStart(2, '0');
+        const day   = String(formValue.fecha.getDate()).padStart(2, '0');
         formValue.fecha = `${year}-${month}-${day}`;
       }
 
       formValue.total = this.calcularTotal();
 
-      // Separa los detalles del objeto principal para guardarlos por separado
       const detallesParaGuardar = [...formValue.detalles];
       delete formValue.detalles;
 
       console.log('Enviando compra principal:', formValue);
       console.log('Detalles a guardar:', detallesParaGuardar);
-      
+      console.log('Detalles eliminados:', this.detallesEliminados);
+
       try {
-        // 1. Guardar compra principal
         let compraGuardada;
+
         if (formValue.idCompra) {
           compraGuardada = await this.compraService.actualizarCompra(formValue.idCompra, formValue).toPromise();
         } else {
           compraGuardada = await this.compraService.crearCompra(formValue).toPromise();
         }
 
-        // 2. Guardar cada detalle por separado
         if (compraGuardada && compraGuardada.idCompra) {
+
+          // 1. Eliminar detalles que el usuario quitó
+          for (const idDetalle of this.detallesEliminados) {
+            await this.detalleCompraService.eliminarDetalle(idDetalle).toPromise();
+          }
+
+          // 2. Crear o actualizar los detalles actuales
           for (const detalle of detallesParaGuardar) {
-            const detalleParaGuardar = {
-              idCompra: compraGuardada.idCompra,
+            const idDetalle = detalle.idDetalleCompra as number | undefined;
+
+            const cuerpoDetalle = {
+              idCompra:   compraGuardada.idCompra,
               idProducto: detalle.idProducto,
-              cantidad: detalle.cantidad
+              cantidad:   detalle.cantidad
             };
-            
-            await this.detalleCompraService.crearDetalle(detalleParaGuardar).toPromise();
+
+            if (idDetalle) {
+              await this.detalleCompraService.actualizarDetalle(idDetalle, cuerpoDetalle).toPromise();
+            } else {
+              await this.detalleCompraService.crearDetalle(cuerpoDetalle).toPromise();
+            }
           }
         }
 
-        console.log('Compra y detalles guardados exitosamente');
-        this.dialogRef.close(true);
-        
+        console.log('Compra y detalles procesados correctamente');
+        this.dialogRef.close({ recargar: true });
+
       } catch (error) {
         console.error('Error guardando compra:', error);
         alert('Error al guardar la compra');
@@ -260,8 +308,7 @@ export class ComprasDialog implements OnInit {
     }
   }
 
-  // Cierra el diálogo sin guardar cambios
   onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({ recargar: false });
   }
 }
