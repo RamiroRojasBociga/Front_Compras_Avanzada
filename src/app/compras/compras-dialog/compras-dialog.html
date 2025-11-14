@@ -1,6 +1,7 @@
 <div class="compra-dialog-container">
-  <form [formGroup]="compraForm" class="dialog-form">
+  <h2 class="dialog-title">{{ compraForm.get('idCompra')?.value ? 'Editar' : 'Nueva' }} Compra</h2>
 
+  <form [formGroup]="compraForm" class="dialog-form">
     <!-- Usuario -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Usuario</mat-label>
@@ -54,56 +55,95 @@
     <!-- Detalle de productos -->
     <div class="detalle-section">
       <h4>Productos en la Compra</h4>
-      <button mat-icon-button color="primary" type="button" (click)="agregarDetalle()" [disabled]="productos.length === 0">
-        <mat-icon>add</mat-icon>
+      
+      <button 
+        mat-raised-button 
+        class="add-product-button"
+        type="button" 
+        (click)="agregarDetalle()" 
+        [disabled]="productos.length === 0">
+        <mat-icon>add_circle</mat-icon>
+        Agregar Producto
       </button>
+      
       @if (detalles.length > 0) {
-        <table class="tabla-detalle-compras">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (detalle of detalles.controls; track $index) {
-              <tr [formGroup]="detalle">
-                <td>
-                  <mat-form-field>
-                    <mat-select formControlName="idProducto" required>
-                      @for (prod of productos; track prod.idProducto) {
-                        <mat-option [value]="prod.idProducto">{{ prod.nombre }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
+        <div class="tabla-wrapper">
+          <table class="tabla-detalle-compras">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unit.</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (detalle of detalles.controls; track $index) {
+                <tr [formGroup]="detalle">
+                  <td>
+                    <mat-form-field>
+                      <mat-select formControlName="idProducto" required>
+                        @for (prod of productos; track prod.idProducto) {
+                          <mat-option [value]="prod.idProducto">{{ prod.nombre }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput type="number" formControlName="cantidad" min="1" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <input matInput type="number" formControlName="precioUnitario" min="0" />
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <strong>{{ detalle.get('subtotal')?.value | currency:'COP':'symbol-narrow':'1.0-0' }}</strong>
+                  </td>
+                  <td>
+                    <button mat-icon-button color="warn" type="button" (click)="eliminarDetalle($index)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" style="text-align: right; font-weight: 700; padding: 16px; font-size: 18px;">
+                  TOTAL:
                 </td>
-                <td>
-                  <mat-form-field>
-                    <input matInput type="number" formControlName="cantidad" min="1" />
-                  </mat-form-field>
-                </td>
-                <td>
-                  <button mat-icon-button color="warn" type="button" (click)="eliminarDetalle($index)">
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                <td colspan="2" style="font-weight: 700; font-size: 20px; color: #1e3a8a; padding: 16px;">
+                  {{ totalCompra | currency:'COP':'symbol-narrow':'1.0-0' }}
                 </td>
               </tr>
-            }
-          </tbody>
-        </table>
+            </tfoot>
+          </table>
+        </div>
       } @else {
-        <mat-error>Agrega al menos un producto</mat-error>
+        <!-- ✅ MENSAJE SIN ÍCONO -->
+        <p style="color: #6b7280; text-align: center; padding: 20px; font-size: 15px;">
+          Haz clic en "Agregar Producto" para comenzar
+        </p>
       }
     </div>
-
-    <div class="dialog-actions">
-      <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-button">Cancelar</button>
-      <button mat-raised-button color="primary" type="button" class="save-button"
-              (click)="onSave()"
-              [disabled]="compraForm.invalid || detalles.length === 0">
-        Guardar
-      </button>
-    </div>
   </form>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button type="button" (click)="onCancel()" class="cancel-button">
+      Cancelar
+    </button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      type="button" 
+      class="save-button"
+      (click)="onSave()"
+      [disabled]="compraForm.invalid || detalles.length === 0">
+      Guardar
+    </button>
+  </div>
 </div>

@@ -4,8 +4,8 @@
   border-radius: 18px;
   box-shadow: 0 10px 32px rgba(37,99,235,0.18);
   font-family: 'Segoe UI', Roboto, sans-serif;
-  max-width: 800px;
-  min-width: 460px;
+  max-width: 900px;
+  min-width: 500px;
   width: 94vw;
   margin: 0 auto;
   animation: fadeIn 0.5s;
@@ -127,9 +127,59 @@ mat-error {
   margin-top: 24px;
 }
 
+.detalle-section h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 12px;
+}
+
+.add-product-button {
+  background: linear-gradient(92deg, #10b981 20%, #34d399 99%) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 12px 28px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.3s ease !important;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-product-button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45) !important;
+  background: linear-gradient(92deg, #059669 20%, #10b981 99%) !important;
+}
+
+.add-product-button mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.add-product-button[disabled] {
+  background: #d1d5db !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+.tabla-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-top: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
 .tabla-detalle-compras {
   width: 100%;
-  margin-top: 8px;
+  min-width: 700px;
+  margin-top: 0;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   overflow: hidden;
@@ -138,14 +188,80 @@ mat-error {
 
 .tabla-detalle-compras th,
 .tabla-detalle-compras td {
-  padding: 8px 12px;
+  padding: 12px 10px;
   background: #f8fafc;
+  vertical-align: middle;
 }
+
 .tabla-detalle-compras td {
   background: #fff;
 }
+
 .tabla-detalle-compras th {
   font-weight: 600;
   background: #f1f5f9;
   border-bottom: 2px solid #e2e8f0;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla-detalle-compras mat-form-field {
+  margin-bottom: 0 !important;
+  width: 100%;
+}
+
+.tabla-detalle-compras input[matInput] {
+  font-size: 16px !important;
+  font-weight: 500;
+  padding: 8px;
+}
+
+.tabla-detalle-compras td:nth-child(1) { width: 35%; }
+.tabla-detalle-compras td:nth-child(2) { width: 15%; text-align: center; }
+.tabla-detalle-compras td:nth-child(3) { width: 20%; text-align: right; }
+.tabla-detalle-compras td:nth-child(4) { 
+  width: 20%; 
+  text-align: right; 
+  font-weight: 600; 
+  color: #1e3a8a; 
+  font-size: 16px; 
+}
+.tabla-detalle-compras td:nth-child(5) { width: 10%; text-align: center; }
+
+.tabla-detalle-compras tfoot td {
+  background: #f1f5f9;
+  border-top: 2px solid #2563eb;
+  font-weight: 700;
+  padding: 16px;
+  font-size: 18px;
+}
+
+.tabla-detalle-compras button[mat-icon-button] {
+  color: #ef4444;
+}
+
+.tabla-detalle-compras button[mat-icon-button]:hover {
+  background: #fee2e2;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .compra-dialog-container {
+    min-width: 320px;
+    max-width: 100%;
+  }
+  
+  .tabla-detalle-compras {
+    font-size: 13px;
+  }
+  
+  .tabla-detalle-compras input[matInput] {
+    font-size: 14px !important;
+  }
+  
+  .add-product-button {
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+  }
 }

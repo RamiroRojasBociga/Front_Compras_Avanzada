@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+
 // Modelo Ciudad alineado con DTO backend
 export interface Ciudad {
   id?: number;  // ID puede ser opcional para creación

@@ -98,7 +98,6 @@ button[mat-icon-button] mat-icon {
   font-size: 22px;
 }
 
-/* Estilos para número de factura */
 .num-factura {
   font-weight: 600;
   color: #1e3a8a;
@@ -106,7 +105,6 @@ button[mat-icon-button] mat-icon {
   font-size: 14px;
 }
 
-/* Estilos para estados */
 .estado-pendiente {
   background-color: #fef3c7;
   color: #92400e;

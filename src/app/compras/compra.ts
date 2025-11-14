@@ -13,8 +13,8 @@ export interface Compra {
   fecha: string;
   numFactura?: string;
   estado: string;
+  total?: number;
 }
-
 
 // Interfaz para DetalleCompra (DetalleCompraResponseDto)
 export interface DetalleCompra {
@@ -24,6 +24,8 @@ export interface DetalleCompra {
   idProducto: number;
   nombreProducto?: string;
   cantidad: number;
+  precioUnitario?: number;
+  subtotal?: number;
 }
 
 // Servicio standalone para CRUD de compras
@@ -83,6 +85,11 @@ export class DetalleCompraService {
 
   getDetalleById(id: number): Observable<DetalleCompra> {
     return this.http.get<DetalleCompra>(`${this.apiUrl}/${id}`);
+  }
+
+  // ✅ MÉTODO CRÍTICO PARA CARGAR DETALLES AL EDITAR
+  getDetallesByCompraId(idCompra: number): Observable<DetalleCompra[]> {
+    return this.http.get<DetalleCompra[]>(`${this.apiUrl}/compra/${idCompra}`);
   }
 
   crearDetalle(detalle: Partial<DetalleCompra>): Observable<DetalleCompra> {

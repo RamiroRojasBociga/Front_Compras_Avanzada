@@ -8,7 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-page-toolbar',
-  standalone: true,
+  standalone: true,  // DEBE estar presente
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -19,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './page-toolbar.html',
   styleUrls: ['./page-toolbar.css']
 })
-export class PageToolbar {
+export class PageToolbar {  // DEBE tener 'export'
   @Input() pageTitle: string = '';
   @Input() showActionButton: boolean = true;
   @Input() actionButtonText: string = 'Crear';
