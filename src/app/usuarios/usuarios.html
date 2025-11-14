@@ -1,10 +1,12 @@
 <!-- Toolbar de navegación (se muestra oculto para no afectar el diseño) -->
-<app-page-toolbar 
+<app-page-toolbar
   [pageTitle]="'Usuarios'"
   [showActionButton]="false">
 </app-page-toolbar>
+
 <!-- Contenedor principal del módulo usuarios -->
 <div class="usuarios-container">
+
   <!-- Header con título y botón para crear usuario -->
   <div class="header">
     <h1>Usuarios</h1>
@@ -40,29 +42,71 @@
       <td mat-cell *matCellDef="let usuario">{{ usuario.telefono }}</td>
     </ng-container>
 
-    <!-- Columna Acciones: Editar y Eliminar -->
+    <!-- Columna Estado visual (activo / inactivo solo en el front) -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let usuario">
+        <!-- Badge de estado inactivo -->
+        @if (isUsuarioDesactivado(usuario)) {
+          <span class="estado-badge estado-inactivo">
+            Inactivo
+          </span>
+        } @else {
+          <span class="estado-badge estado-activo">
+            Activo
+          </span>
+        }
+      </td>
+    </ng-container>
+
+    <!-- Columna Acciones: Editar y Desactivar -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let usuario">
-        <button mat-icon-button matTooltip="Editar" (click)="openDialog(usuario)">
+
+        <!-- Botón Editar -->
+        <button
+          mat-icon-button
+          matTooltip="Editar"
+          (click)="openDialog(usuario)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Eliminar" color="warn" (click)="deleteUsuario(usuario.idUsuario)">
-          <mat-icon>delete</mat-icon>
+
+        <!-- Botón Desactivar / Activar (no elimina en BD) -->
+        <button
+          mat-icon-button
+          [matTooltip]="isUsuarioDesactivado(usuario) ? 'Activar usuario' : 'Desactivar usuario'"
+          (click)="toggleDesactivarUsuario(usuario)"
+          class="btn-desactivar-usuario"
+          [ngClass]="{ 'btn-usuario-inactivo': isUsuarioDesactivado(usuario) }">
+          <!-- Icono cambia según estado -->
+          @if (isUsuarioDesactivado(usuario)) {
+            <mat-icon>lock</mat-icon>
+          } @else {
+            <mat-icon>block</mat-icon>
+          }
         </button>
+
       </td>
     </ng-container>
 
     <!-- Definición de filas de encabezado y datos -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns;"
+      [ngClass]="{ 'fila-inactiva': isUsuarioDesactivado(row) }">
+    </tr>
 
   </table>
 
   <!-- Mensaje amigable cuando no hay usuarios -->
-  <div *ngIf="dataSource.data.length === 0" class="no-data">
-    <mat-icon>person_off</mat-icon>
-    No hay usuarios registrados
-  </div>
-</div>
+  @if (dataSource.data.length === 0) {
+    <div class="no-data">
+      <mat-icon>person_off</mat-icon>
+      No hay usuarios registrados
+    </div>
+  }
 
+</div>

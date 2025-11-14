@@ -4,84 +4,124 @@
 </h2>
 
 <!-- Contenido principal del diálogo con el formulario reactivo -->
-<mat-dialog-content>
+<mat-dialog-content class="usuario-dialog-container">
   <form [formGroup]="usuarioForm">
 
     <!-- Campo Nombre del usuario -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="nombre" placeholder="Ej: Juan Pérez" autocomplete="off" />
-      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('required')">
-        El nombre es obligatorio
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('minlength')">
-        Mínimo 3 caracteres
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('nombre')?.hasError('maxlength')">
-        Máximo 120 caracteres
-      </mat-error>
+      <input
+        matInput
+        formControlName="nombre"
+        placeholder="Ej: Juan Pérez"
+        autocomplete="off" />
+
+      @if (usuarioForm.get('nombre')?.hasError('required')) {
+        <mat-error>El nombre es obligatorio</mat-error>
+      }
+      @if (usuarioForm.get('nombre')?.hasError('minlength')) {
+        <mat-error>Mínimo 3 caracteres</mat-error>
+      }
+      @if (usuarioForm.get('nombre')?.hasError('maxlength')) {
+        <mat-error>Máximo 120 caracteres</mat-error>
+      }
     </mat-form-field>
 
     <!-- Campo Email con validaciones -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email" placeholder="ejemplo@email.com" autocomplete="off" />
-      <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
-        El email es obligatorio
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
-        Email inválido
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('email')?.hasError('maxlength')">
-        Máximo 100 caracteres
-      </mat-error>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="ejemplo@email.com"
+        autocomplete="off" />
+
+      @if (usuarioForm.get('email')?.hasError('required')) {
+        <mat-error>El email es obligatorio</mat-error>
+      }
+      @if (usuarioForm.get('email')?.hasError('email')) {
+        <mat-error>Email inválido</mat-error>
+      }
+      @if (usuarioForm.get('email')?.hasError('maxlength')) {
+        <mat-error>Máximo 100 caracteres</mat-error>
+      }
     </mat-form-field>
 
     <!-- Campo Teléfono con validaciones -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Teléfono</mat-label>
-      <input matInput formControlName="telefono" placeholder="Ej: 3001234567" autocomplete="off" />
-      <mat-error *ngIf="usuarioForm.get('telefono')?.hasError('required')">
-        El teléfono es obligatorio
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('telefono')?.hasError('maxlength')">
-        Máximo 20 caracteres
-      </mat-error>
+      <input
+        matInput
+        formControlName="telefono"
+        placeholder="Ej: 3001234567"
+        autocomplete="off" />
+
+      @if (usuarioForm.get('telefono')?.hasError('required')) {
+        <mat-error>El teléfono es obligatorio</mat-error>
+      }
+      @if (usuarioForm.get('telefono')?.hasError('maxlength')) {
+        <mat-error>Máximo 20 caracteres</mat-error>
+      }
     </mat-form-field>
 
     <!-- Campo Contraseña: obligatorio en creación, opcional en edición -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>
-        Contraseña {{ usuarioForm.get('idUsuario')?.value ? '(dejar vacío para no cambiar)' : '' }}
+        Contraseña
+        {{ usuarioForm.get('idUsuario')?.value ? '(dejar vacío para no cambiar)' : '' }}
       </mat-label>
-      <input matInput formControlName="password" type="password" autocomplete="new-password"
-        [placeholder]="usuarioForm.get('idUsuario')?.value ? 'Nueva contraseña (opcional)' : 'Contraseña'" />
-      <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">
-        La contraseña es obligatoria
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('password')?.hasError('minlength')">
-        Mínimo 6 caracteres
-      </mat-error>
-      <mat-error *ngIf="usuarioForm.get('password')?.hasError('maxlength')">
-        Máximo 100 caracteres
-      </mat-error>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        autocomplete="new-password"
+        [placeholder]="usuarioForm.get('idUsuario')?.value
+          ? 'Nueva contraseña (opcional)'
+          : 'Contraseña'" />
+
+      @if (usuarioForm.get('password')?.hasError('required')) {
+        <mat-error>La contraseña es obligatoria</mat-error>
+      }
+      @if (usuarioForm.get('password')?.hasError('minlength')) {
+        <mat-error>Mínimo 6 caracteres</mat-error>
+      }
+      @if (usuarioForm.get('password')?.hasError('maxlength')) {
+        <mat-error>Máximo 100 caracteres</mat-error>
+      }
     </mat-form-field>
 
-    <!-- Campo ID solo en modo edición (as: idUsuario es la sintaxis moderna Angular 17+/20+) -->
-    <mat-form-field *if="usuarioForm.get('idUsuario')?.value as idUsuario" appearance="outline" class="full-width">
-      <mat-label>ID</mat-label>
-      <input matInput formControlName="idUsuario" [disabled]="true" autocomplete="off" />
-    </mat-form-field>
+    <!-- Campo ID solo en modo edición -->
+      @if (usuarioForm.get('idUsuario')?.value) {
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>ID</mat-label>
+          <input
+            matInput
+            formControlName="idUsuario"
+            [disabled]="true"
+            autocomplete="off" />
+        </mat-form-field>
+      }
+
 
   </form>
 </mat-dialog-content>
 
 <!-- Barra de acciones con botones de cancelar y guardar -->
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()" class="cancel-button">
+  <button
+    mat-button
+    (click)="onCancel()"
+    class="cancel-button">
     Cancelar
   </button>
-  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="usuarioForm.invalid" class="save-button">
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="usuarioForm.invalid"
+    class="save-button">
     Guardar
   </button>
 </mat-dialog-actions>
